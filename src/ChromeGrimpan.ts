@@ -5,7 +5,6 @@ class ChromeGrimpan extends Grimpan {
   private static instance: ChromeGrimpan;
 
   override initialize() {}
-  override initializeMenu() {}
 
   static override getInstance() {
     if (!this.instance) {

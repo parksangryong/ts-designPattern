@@ -1,25 +1,13 @@
-import ChromeGrimpan from "./ChromeGrimpan.js";
-import IEGrimpan from "./IEGrimpan.js";
-import AbstractGrimpanFactory from "./AbstractGrimpanFactory.js";
-
-// Chrome 그림판 팩토리
-class ChromeGrimpanFactory extends AbstractGrimpanFactory {
-  static override createGrimpan() {
-    return ChromeGrimpan.getInstance();
-  }
-}
-
-// IE 그림판 팩토리
-class IEGrimpanFactory extends AbstractGrimpanFactory {
-  static override createGrimpan() {
-    return IEGrimpan.getInstance();
-  }
-}
+import { ChromeGrimpanFactory } from "./GrimpanFactory.js";
 
 function main() {
-  const grimpan = ChromeGrimpanFactory.createGrimpan();
+  const factory = ChromeGrimpanFactory;
+  const grimpan = factory.createGrimpan();
+  const grimpanMenu = factory.createGrimpanMenu(grimpan);
+  const grimpanHistory = factory.createGrimpanHistory(grimpan);
   grimpan.initialize();
-  grimpan.initializeMenu();
+  grimpanMenu.initialize();
+  grimpanHistory.initialize();
 }
 
 main();
