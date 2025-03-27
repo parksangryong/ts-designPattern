@@ -1,16 +1,13 @@
-class ChromeGrimpan {
+import Grimpan from "./AbstractGrimpan";
+
+// Chrome 의 구체적인 팩토리 구현체
+class ChromeGrimpan extends Grimpan {
   private static instance: ChromeGrimpan;
 
-  private constructor(canvas: HTMLElement | null) {
-    if (!canvas || !(canvas instanceof HTMLCanvasElement)) {
-      throw new Error("canvas is not an instance of HTMLCanvasElement");
-    }
-  }
+  override initialize() {}
+  override initializeMenu() {}
 
-  initialize() {}
-  initializeMenu() {}
-
-  static getInstance() {
+  static override getInstance() {
     if (!this.instance) {
       this.instance = new ChromeGrimpan(document.querySelector("#canvas"));
     }
