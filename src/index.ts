@@ -1,7 +1,20 @@
-import grimpan from "./pattern/creational/singleton1.js";
-import multiGrimpan from "./pattern/creational/singleton2.js";
+import ChromeGrimpan from "./ChromeGrimpan.js";
+import IEGrimpan from "./IEGrimpan.js";
 
-console.log(grimpan.getInstance() === grimpan.getInstance());
-console.log(
-  multiGrimpan.getInstance("canvas1") === multiGrimpan.getInstance("canvas2")
-);
+function GrimpanFactory(type: string) {
+  if (type == "ie") {
+    return IEGrimpan.getInstance();
+  } else if (type == "chrome") {
+    return ChromeGrimpan.getInstance();
+  } else {
+    throw new Error("일치하는 type이 없습니다.");
+  }
+}
+
+function main() {
+  const grimpan = GrimpanFactory("chrome");
+  grimpan.initialize();
+  grimpan.initializeMenu();
+}
+
+main();
