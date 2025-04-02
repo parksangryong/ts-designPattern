@@ -9,10 +9,11 @@ import {
   PipetteSelectCommand,
   RectangleSelectCommand,
 } from "./commands/index.js";
-
+import { Mode } from "./modes/index.js";
 export abstract class GrimpanMenu {
   dom: HTMLElement;
   grimpan: Grimpan;
+  colorBtn!: HTMLInputElement;
 
   protected constructor(dom: HTMLElement, grimpan: Grimpan) {
     this.grimpan = grimpan;
@@ -22,7 +23,10 @@ export abstract class GrimpanMenu {
   setActiveBtn(type: GrimpanMode) {
     document.querySelector(".active")?.classList.remove("active");
     document.querySelector(`#${type}-btn`)?.classList.add("active");
-    this.grimpan.setMode(type);
+  }
+
+  executeCommand(command: Command) {
+    command.execute();
   }
 
   abstract initialize(types: BtnType[]): void;
@@ -60,11 +64,6 @@ export class ChromeGrimpanMenu extends GrimpanMenu {
   override initialize(types: BtnType[]) {
     types.forEach(this.drawButtonByType.bind(this));
     this.setActiveBtn("pen");
-  }
-
-  executeCommand(command: Command) {
-    // Invoker 가 명령을 실행
-    command.execute();
   }
 
   onClickBack() {
@@ -113,8 +112,10 @@ export class ChromeGrimpanMenu extends GrimpanMenu {
       }
       case "color": {
         const btn = new GrimpanMenuInput.Builder(this, "컬러", type)
-          .setOnChange(() => {
-            console.log("색상 변경 작업");
+          .setOnChange((e: Event) => {
+            if (e.target) {
+              this.grimpan.setColor((e.target as HTMLInputElement).value);
+            }
           })
           .build();
         btn.draw();
